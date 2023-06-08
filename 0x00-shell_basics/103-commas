@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -laCpm | sed '$!b; s/$/\n/'
+cat <(ls -laCpm) <(echo)
