@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -ltanU
+ls -ula
