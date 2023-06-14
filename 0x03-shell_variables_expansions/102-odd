@@ -1,3 +1,2 @@
 #!/bin/bash
 ls -1 | grep -n '.*' | grep -v '^[[:digit:]]*[02468]:\|::' | cut -d: -f2-
-
