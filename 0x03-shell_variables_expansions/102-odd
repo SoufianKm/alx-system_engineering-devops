@@ -1,2 +1,3 @@
 #!/bin/bash
-awk 'NR % 2 ==1'
+ls -1 | grep -n '.*' | grep -v '^[[:digit:]]*[02468]:\|::' | cut -d: -f2-
+
