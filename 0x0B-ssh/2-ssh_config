@@ -1,0 +1,7 @@
+Host *
+   HostName 34.236.171.16
+   IdentityFile ~/.ssh/school
+   User ubuntu
+   PasswordAuthentication no
+   SeverAliveInterval 120
+   PreferredAuthentications publickey
