@@ -17,6 +17,6 @@ backend skamma-back
    server 451355-web-02 35.153.51.85:80 check
 "
 
-echo "$server_config" | sudo dd status=none of=/etc/haproxy/haproxy.cfg
+echo "$server_config" >> /etc/haproxy/haproxy.cfg
 
 sudo service haproxy restart
