@@ -22,8 +22,12 @@ sudo sed -i '24i\       rewrite ^/redirect_me https://www.youtube.com/watch?v=QH
 
 # Set up a 404 page
 echo "Ceci n'est pas une page" >> /var/www/html/error_404.html
+
+sudo sed -i '/server_name _;/a \        error_page 404 /error.html;\n\tlocation = /error.html {\n               root /var/www/html;\n           internal;\n     }'  /etc/nginx/sites-enabled/default
 sudo sed -i '25i\	error_page 404 /error_404.html;' /etc/nginx/sites-available/default
 
 #shellcheck disable=SC2154
+
+sudo sed -i "/server_name _;/a \        add_header X-Served-By $HOSTNAME;" /etc/nginx/sites-enabled/default
 
 sudo service nginx restart
