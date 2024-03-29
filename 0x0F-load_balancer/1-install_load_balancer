@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+#Install and configure HAproxy on your lb-01 server
+
+sudo apt-get update
+sudo apt-get -y install haproxy
+sudo chown -R $USER:$USER /etc/haproxy
+server_config=\
+"
+frontend skamma-front
+   bind *:80
+   mode http
+   default_backend skamma-back
+
+backend skamma-back
+   balance roundrobin
+   server 451355-web-01 54.90.57.18:80 check
+   server 451355-web-02 35.153.51.85:80 check
+"
+
+echo "$server_config" | sudo dd status=none of=/etc/haproxy/haproxy.cfg
+
+sudo service haproxy restart
