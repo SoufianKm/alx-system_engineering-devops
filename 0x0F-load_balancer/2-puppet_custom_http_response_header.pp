@@ -25,7 +25,7 @@ file_line { 'redirect':
 }
 
 exec {'HTTP header':
-  command  => 'sed -i "25i\	add_header X-Served-By \$hostname;" /etc/nginx/sites-available/default',
+  command  => 'sudo sed -i "/server_name _;/a \        add_header X-Served-By $HOSTNAME;" /etc/nginx/sites-enabled/default'
   provider => 'shell'
 }
 
