@@ -18,13 +18,23 @@ defaults
     option  forwardfor
     option  http-server-close
 
-frontend skamma-front
-   bind *:80
-   mode http
-   default_backend skamma-back
+frontend www-http
+    bind   0.0.0.0:80
+    reqadd X-Forwarded-Proto:\ http
+    default_backend www-backend
 
-backend skamma-back
-   balance roundrobin
-   server 451355-web-01 54.90.57.18:80 check
-   server 451355-web-02 35.153.51.85:80 check
+frontend www-https
+    bind   0.0.0.0:443 ssl crt /etc/haproxy/certs/www.bdbnb.site.pem
+    reqadd X-Forwarded-Proto:\ https
+    acl    letsencrypt-acl path_beg /.well-known/acme-challenge/
+    use_backend letsencrypt-backend if letsencrypt-acl
+    default_backend www-backend
 
+backend www-backend
+    balance  roundrobin
+    redirect scheme https if !{ ssl_fc }
+    server 2012-web-01 35.231.28.100 check
+    server 2012-web-02 3.233.219.154 check
+
+backend letsencrypt-backend
+    server letsencrypt 127.0.0.1:54321
