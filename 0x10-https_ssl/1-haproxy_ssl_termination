@@ -1,0 +1,30 @@
+global
+    log     /dev/log local0
+    maxconn 2048
+    user    haproxy
+    group   haproxy
+    tune.ssl.default-dh-param 2048
+
+defaults
+    log     global
+    mode    http
+    option  httplog
+    option  dontlognull
+    retries 3
+    option  redispatch
+    timeout connect  5000
+    timeout client  10000
+    timeout server  10000
+    option  forwardfor
+    option  http-server-close
+
+frontend skamma-front
+   bind *:80
+   mode http
+   default_backend skamma-back
+
+backend skamma-back
+   balance roundrobin
+   server 451355-web-01 54.90.57.18:80 check
+   server 451355-web-02 35.153.51.85:80 check
+
