@@ -1,34 +1,30 @@
-# Puppet Manifest to automatically configure
-# an Nginx server using Puppet instead of Bash
+# Setup New Ubuntu server with nginx
+# and add a custom HTTP header
 
-exec { 'apt-get update':
-  command => '/usr/bin/apt-get -y update',
+exec { 'update system':
+        command => '/usr/bin/apt-get update',
 }
 
 package { 'nginx':
-  ensure  => 'installed',
-  require => Exec['apt-get update'],
+	ensure => 'installed',
+	require => Exec['update system']
 }
 
-file { 'index-html':
-  ensure  => 'present',
-  path    => '/var/www/html/index.html',
-  content => 'Hello World!',
+file {'/var/www/html/index.html':
+	content => 'Hello World!'
 }
 
-file_line { 'redirect':
-  path    => '/etc/nginx/sites-available/default',
-  after   => 'server_name _;',
-  line    => 'rewrite ^/redirect_me https://www.google.com permanent;',
-  notify  => Service['nginx'],
-  require => Package['nginx'],
+exec {'redirect_me':
+	command => 'sed -i "24i\	rewrite ^/redirect_me https://google.com/ permanent;" /etc/nginx/sites-available/default',
+	provider => 'shell'
 }
 
 exec {'HTTP header':
-  command  => 'sudo sed -i "/server_name _;/a \        add_header X-Served-By $HOSTNAME;" /etc/nginx/sites-enabled/default'
+	command => 'sed -i "25i\	add_header X-Served-By \$hostname;" /etc/nginx/sites-available/default',
+	provider => 'shell'
 }
 
-service { 'nginx':
-  ensure => running,
-  enable => true,
+service {'nginx':
+	ensure => running,
+	require => Package['nginx']
 }
