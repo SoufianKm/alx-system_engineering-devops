@@ -34,8 +34,8 @@ frontend soufian-fornt-https
 backend soufian-back
     balance  roundrobin
     redirect scheme https if !{ ssl_fc }
-    server 451355-web-01 54.90.57.18 check
-    server 451355-web-02 35.153.51.85 check
+    server 451355-web-01 54.90.57.18:80 check
+    server 451355-web-02 35.153.51.85:80 check
 
 backend letsencrypt-backend
     server letsencrypt 127.0.0.1:54321

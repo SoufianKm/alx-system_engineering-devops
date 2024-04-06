@@ -42,5 +42,5 @@ frontend soufian-front-https
 
 backend soufian-back
 	balance  roundrobin
-	server 451355-web-01 54.90.57.18 check
-	server 451355-web-02 35.153.51.85 check
+	server 451355-web-01 54.90.57.18:80 check
+	server 451355-web-02 35.153.51.85:80 check
