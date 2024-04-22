@@ -5,7 +5,6 @@ Script returns information about TODO list progress for a given employee ID
 
 import requests
 import sys
-import csv
 
 
 if __name__ == "__main__":
@@ -17,4 +16,4 @@ if __name__ == "__main__":
         "completed") is True]
     print("Employee {} is done with tasks({}/{}):".format(
         user.get("name"), len(tasks_completed), len(todos)))
-    [print("\t {}".format(c)) for completed in tasks_completed]
+    [print("\t {}".format(completed)) for completed in tasks_completed]
