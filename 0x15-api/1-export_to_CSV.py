@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 """ script to export data in the CSV format """
+
+import csv
 import requests
 import sys
-import csv
 
 
 if __name__ == "__main__":
@@ -14,7 +15,7 @@ if __name__ == "__main__":
         writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
         [writer.writerow([
                 sys.argv[1],
-                user.get("name"),
+                user.get("username"),
                 todo.get("completed"),
                 todo.get("title")]
                 )for todo in todos]
