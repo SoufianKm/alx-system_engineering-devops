@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 """ script to export data in the json format """
+
+import json
 import requests
 import sys
-import json
 
 
 if __name__ == "__main__":
@@ -14,5 +15,5 @@ if __name__ == "__main__":
         json.dump({sys.argv[1]: [{
                 "task": todo.get("title"),
                 "completed": todo.get("completed"),
-                "username": user.get("name")
+                "username": user.get("username")
                 } for todo in todos]}, jsonfile)
