@@ -8,7 +8,7 @@ hot articles for a given subreddit
 import requests
 
 
-def recurse(subreddit, hot_list=[]):
+def recurse(subreddit, hot_list=[], after="", count=0):
     """
     returns a list containing the titles of all hot articles
     for a given subreddit. If no results are found for the given
@@ -17,9 +17,10 @@ def recurse(subreddit, hot_list=[]):
 
     url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
     headers = {"User-Agent": "ubuntu:alx-user-agent"}
-    params = {"after": "", "count": 0, "limit": 100}
-    response = requests.get(url, headers=headers, params=params,
-                            allow_redirects=False)
+    params = {"after": after, "count": count, "limit": 100}
+    response = requests.get(
+       url, headers=headers, params=params, allow_redirects=False
+    )
     if response.status_code == 404:
         return None
 
