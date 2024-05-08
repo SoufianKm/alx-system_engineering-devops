@@ -15,13 +15,21 @@ def number_of_subscribers(subreddit):
     of the Reddit API. If you’re getting errors related
     to Too Many Requests, ensure you’re setting a custom User-Agent.
     """
-    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
-    header = {"User-Agent": "Alx-User-Agent"}
-    sub_response = requests.get(url, headers=header, allow_redirects=False)
+    if subreddit is None or not isinstance(subreddit, str):
+        return None
 
-    if sub_response.status_code == 200:
-        data = sub_response.json()
+    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
+    client_auth = requests.auth.HTTPBasicAuth(
+            'LY9-f45QIEy_wbuZRPuRDw', 'bOc_nJ0uRZM0qzeqx_9z7nKN40Ewnw')
+    headers = {"User-Agent": "User-Client/0.1 by soufianKm"}
+    response = requests.get(
+            url, headers=headers,
+            auth=client_auth,
+            allow_redirects=False)
+
+    if response.status_code == 200 and not response.is_redirect:
+        data = response.json()
         subscribers = data['data']['subscribers']
         return subscribers
-
-    return 0
+    else:
+        return 0

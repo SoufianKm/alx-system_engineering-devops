@@ -14,14 +14,21 @@ def recurse(subreddit, hot_list=[], after="", count=0):
     for a given subreddit. If no results are found for the given
     subreddit, the function should return None.
     """
+    if subreddit is None or not isinstance(subreddit, str):
+        return None
 
     url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
-    headers = {"User-Agent": "ubuntu:alx-user-agent"}
+    client_auth = requests.auth.HTTPBasicAuth(
+            'LY9-f45QIEy_wbuZRPuRDw', 'bOc_nJ0uRZM0qzeqx_9z7nKN40Ewnw')
+    headers = {"User-Agent": "User-Client/0.1 by soufianKm"}
     params = {"after": after, "count": count, "limit": 100}
     response = requests.get(
-       url, headers=headers, params=params, allow_redirects=False
-    )
-    if response.status_code == 404:
+            url, headers=headers,
+            auth=client_auth,
+            params=params,
+            allow_redirects=False)
+
+    if response.status_code >= 300 or response.is_redirect:
         return None
 
     results = response.json().get("data")
